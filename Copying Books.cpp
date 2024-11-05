@@ -1,3 +1,5 @@
+// problem link: https://www.spoj.com/problems/BOOKS1/
+
 #include <bits/stdc++.h>
 using namespace std;
 #include <ext/pb_ds/assoc_container.hpp>
@@ -30,20 +32,7 @@ inline ll modDiv(ll a, ll b);
 
 vector<bool>mark(N+11);
 vector<ll>prime;
-void seive(){
-    mark[0]=true;
-    mark[1]=true;
-    for(ll i=4;i<=N;i+=2)mark[i]=true;
-    for(ll i=3;i*i<=N;i+=2){
-        if(mark[i]==false){
-            for(ll j=i*i;j<=N;j+=2*i)mark[j]=true;
-        }
-    }
-    prime.push_back(2);
-    for(ll i=3;i<=N;i+=2){
-        if(mark[i]==false)prime.push_back(i);
-    }
-}
+void seive();
 
 void solve(ll tc)
 {
@@ -66,13 +55,12 @@ void solve(ll tc)
         return true;
     };
 
-    ll lim = -1, mid;
+    ll lim = -1, mid; // lim = range limit 
     while(l <= r){
         mid = l + (r - l) / 2;
         if(valid(mid))lim = mid, r = mid - 1;
         else l = mid + 1;
     }
-    // cout<< lim << endl; // range limit 
 
     // printing 
     vector<ll>p = {n - 1}; // to store dividing points 
@@ -107,6 +95,20 @@ int main()
 
 }
 
+void seive(){
+    mark[0]=true;
+    mark[1]=true;
+    for(ll i=4;i<=N;i+=2)mark[i]=true;
+    for(ll i=3;i*i<=N;i+=2){
+        if(mark[i]==false){
+            for(ll j=i*i;j<=N;j+=2*i)mark[j]=true;
+        }
+    }
+    prime.push_back(2);
+    for(ll i=3;i<=N;i+=2){
+        if(mark[i]==false)prime.push_back(i);
+    }
+}
 
 inline void normal(ll &a){
     a %= M;
@@ -145,3 +147,6 @@ inline ll modDiv(ll a, ll b){
     return modMul(a, modInverse(b));
 }
 
+/*
+approach: binary search
+*/
